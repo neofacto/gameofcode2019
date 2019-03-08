@@ -4,7 +4,9 @@ import com.corundumstudio.socketio.AckRequest;
 import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.SocketIOServer;
 import com.neofacto.goc.model.Attack;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j(topic = "goc")
 public class AttackListener extends BaseEventListener<Attack> {
 
     public static final String EVENT_ATTACK = "attackEvent";

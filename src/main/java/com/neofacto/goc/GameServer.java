@@ -12,10 +12,12 @@ public class GameServer {
     public static void main(String[] args) throws InterruptedException {
 
         Configuration config = new Configuration();
+
         config.setPort(9092);
         config.setOrigin("http://127.0.0.1:8887");
 
         final SocketIOServer server = new SocketIOServer(config);
+
         server.addEventListener(PositionListener.EVENT_POSITION, Position.class, new PositionListener(server));
         server.addEventListener(AttackListener.EVENT_ATTACK, Attack.class, new AttackListener(server));
 
