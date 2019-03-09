@@ -46,4 +46,13 @@ public class Game {
         }
     }
 
+    public Team getPlayerTeam(SocketIOClient client) {
+        for (Team team : teams.values()) {
+            if (team.getMembers().get(client.getSessionId()) != null) {
+                return team;
+            }
+        }
+        return null;
+    }
+
 }
