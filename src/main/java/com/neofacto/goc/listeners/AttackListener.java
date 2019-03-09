@@ -17,7 +17,12 @@ public class AttackListener extends BaseEventListener<Attack> {
 
     @Override
     public void onReceivedData(SocketIOClient client, Attack data, AckRequest ackRequest) {
-        // Broadcast messages to all clients.
-        getServer().getBroadcastOperations().sendEvent(EVENT_ATTACK, data);
+        // Check ability to attack.
+        if (data.getPlayer().canAttack(data.isUltimate())) {
+            // Broadcast attack to all clients.
+            getServer().getBroadcastOperations().sendEvent(EVENT_ATTACK, data);
+        } else {
+            log.debug("{} cannot attack now!", data.getPlayer().getCharacter().name());
+        }
     }
 }

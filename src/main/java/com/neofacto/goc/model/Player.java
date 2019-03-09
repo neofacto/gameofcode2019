@@ -13,8 +13,16 @@ import lombok.Setter;
 @Setter
 public class Player {
 
+    public int FULL_JAUGE = 100;
+
     private String name;
-    private Role role;
-    private int points;
+    private Character character;
+    private int score = 0;  // increase with inflicted damages to others.
+    private int damages = 0;
+    private boolean protectionActive;
+
+    public boolean canAttack(boolean ultimate) {
+        return character.isAbleToAttack() && (!ultimate || (score == FULL_JAUGE));
+    }
 
 }
