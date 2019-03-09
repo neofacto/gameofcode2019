@@ -8,12 +8,14 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
+@Slf4j(topic = "goc")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -24,6 +26,7 @@ public class Game {
     public static final String EVENT_READY = "ready";
     public static final String EVENT_TIME = "time";
     public static final String EVENT_END = "end";
+    public static final String EVENT_PLAYER_ADDED = "playerAdded";
 
     private Timer timer = new Timer();
 
@@ -66,6 +69,7 @@ public class Game {
                         timer.cancel();
                         timer.purge();
                         server.getBroadcastOperations().sendEvent(EVENT_END, true);
+                        log.debug("End of game.");
                     }
                     server.getBroadcastOperations().sendEvent(EVENT_TIME, remainingTime);
                 }
@@ -82,8 +86,11 @@ public class Game {
     public void addPlayer(Player player, String teamName, SocketIOClient client) {
         if (teams.containsKey(teamName)) {
             Team team = teams.get(teamName);
-            if (!team.addPlayer(player, client.getSessionId())) {
+            Player addedPlayer = team.addPlayer(player, client.getSessionId());
+            if (addedPlayer != null) {
                 client.sendEvent(GameServer.EVENT_ERROR, "Team " + teamName + " already has character " + player.getCharacter().name());
+            } else {
+                client.sendEvent(EVENT_PLAYER_ADDED, addedPlayer);
             }
             teams.put(teamName, team);
         } else {

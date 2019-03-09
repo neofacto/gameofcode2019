@@ -24,20 +24,20 @@ public class Team {
     @Builder.Default
     private Map<UUID, Player> members = new HashMap<>();
 
-    public boolean addPlayer(Player player, UUID uuid) {
+    public Player addPlayer(Player player, UUID uuid) {
         if (player == null) {
             player = Player.builder().name("player" + Math.round(Math.random() * 100)).character(getAvailableCharacter()).build();
         } else {
             for (Player member : members.values()) {
                 if (member.getCharacter().equals(player.getCharacter())) {
-                    return false;
+                    return null;
                 }
             }
         }
         player.setUuid(uuid.toString());
         log.debug("Add player {}({}) to {} (uuid: {})", player.getName(), player.getCharacter().name(), name, uuid);
         members.put(uuid, player);
-        return true;
+        return player;
     }
 
     private Character getAvailableCharacter() {
