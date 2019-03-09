@@ -12,6 +12,7 @@ import com.neofacto.goc.model.Damage;
 import com.neofacto.goc.model.Game;
 import com.neofacto.goc.model.Player;
 import com.neofacto.goc.model.Position;
+import com.neofacto.goc.model.Team;
 import com.neofacto.goc.model.TeamSubscription;
 import lombok.extern.slf4j.Slf4j;
 
@@ -39,8 +40,13 @@ public class GameServer {
         server.addEventListener(AttackListener.EVENT_ATTACK, Attack.class, new AttackListener(server, game));
         server.addEventListener(PlayerDamagedListener.EVENT_DAMAGED, Damage.class, new PlayerDamagedListener(server, game));
         server.addEventListener(PlayerDeadListener.EVENT_DEAD, Player.class, new PlayerDeadListener(server, game));
-        server.addDisconnectListener(client -> server.getBroadcastOperations().sendEvent(PlayerDeadListener.EVENT_DEAD,
-                game.getPlayerTeam(client).getMembers().get(client.getSessionId()).updateForDeath()));
+        server.addDisconnectListener(client -> {
+            Team team = game.getPlayerTeam(client);
+            if (team != null) {
+                server.getBroadcastOperations().sendEvent(PlayerDeadListener.EVENT_DEAD,
+                        game.getPlayerTeam(client).getMembers().get(client.getSessionId()).updateForDeath());
+            }
+        });
 
         // Server start.
         server.start();

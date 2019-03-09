@@ -23,14 +23,22 @@ public class Team {
     private Map<UUID, Player> members = new HashMap<>();
 
     public boolean addPlayer(Player player, UUID uuid) {
-        for (Player member : members.values()) {
-            if (member.getCharacter().equals(player.getCharacter())) {
-                return false;
+        if (player == null) {
+            player = Player.builder().name("player" + Math.round(Math.random() * 100)).character(getAvailableCharacter()).build();
+        } else {
+            for (Player member : members.values()) {
+                if (member.getCharacter().equals(player.getCharacter())) {
+                    return false;
+                }
             }
         }
         player.setUuid(uuid.toString());
         members.put(uuid, player);
         return true;
+    }
+
+    private Character getAvailableCharacter() {
+        return Character.values()[members.size()];
     }
 
 }
