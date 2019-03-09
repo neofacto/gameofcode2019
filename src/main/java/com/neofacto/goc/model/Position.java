@@ -16,5 +16,6 @@ public class Position {
     private Player player;
     private int x;
     private int y;
+    private boolean flippedX;
 
 }

@@ -18,8 +18,12 @@ public class GameServer {
 
     public static void main(String[] args) throws InterruptedException {
         Configuration config = new Configuration();
-        config.setPort(9092);
-        config.setOrigin(args[0]);  // set origin as app argument
+        config.setOrigin(args[0]);  // set origin as 1st app argument
+        if (args[1] != null && !args[1].isEmpty()) {
+            config.setPort(Integer.valueOf(args[1]));  // set port as 2nd app argument
+        } else {
+            config.setPort(9092);
+        }
         final SocketIOServer server = new SocketIOServer(config);
 
         // Init a new game.

@@ -20,7 +20,6 @@ public class Player {
     private int score = 0;  // increase with inflicted damages to others.
     private int damages = 0;
     private boolean protectionActive;
-    private boolean flippedX;
 
     public boolean canAttack(boolean ultimate) {
         return character.isAbleToAttack() && (!ultimate || (score == FULL_JAUGE));
