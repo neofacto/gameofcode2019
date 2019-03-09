@@ -19,7 +19,7 @@ public class PositionListener extends BaseEventListener<Position> {
     @Override
     public void onReceivedData(SocketIOClient client, Position data, AckRequest ackRequest) {
         log.debug("{}({}): {}, {}", data.getPlayer().getCharacter().name(),
-                getGame().getPlayerTeam(client), data.getX(), data.getY());
+                getGame().getPlayerTeam(client).getName(), data.getX(), data.getY());
         // Broadcast new position to all clients.
         getServer().getBroadcastOperations().sendEvent(EVENT_POSITION, data);
     }

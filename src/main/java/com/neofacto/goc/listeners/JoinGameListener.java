@@ -18,7 +18,7 @@ public class JoinGameListener extends BaseEventListener<TeamSubscription> {
 
     @Override
     public void onReceivedData(SocketIOClient client, TeamSubscription data, AckRequest ackRequest) {
-        log.debug("{} request to join {}", client.getSessionId(), data.getTeamName());
+        log.debug("{} requested to join {}", client.getSessionId(), data.getTeamName());
         getGame().addPlayer(data.getPlayer(), data.getTeamName(), client);
         if (getGame().isReady()) {
             for (SocketIOClient cli : getServer().getAllClients()) {

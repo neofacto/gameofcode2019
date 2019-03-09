@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-@Slf4j
+@Slf4j(topic = "goc")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
