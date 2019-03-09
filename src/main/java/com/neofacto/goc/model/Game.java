@@ -47,11 +47,11 @@ public class Game {
         if (teams.size() < 2) {
             return false;
         }
-        for (Team team : teams.values()) {
-            if (team.getMembers().size() < Character.values().length) {
-                return false;
-            }
-        }
+//        for (Team team : teams.values()) {
+//            if (team.getMembers().size() < Character.values().length) {
+//                return false;
+//            }
+//        }
         return true;
     }
 
