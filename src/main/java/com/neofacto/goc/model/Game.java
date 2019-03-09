@@ -87,7 +87,7 @@ public class Game {
         if (teams.containsKey(teamName)) {
             Team team = teams.get(teamName);
             Player addedPlayer = team.addPlayer(player, client.getSessionId());
-            if (addedPlayer != null) {
+            if (addedPlayer == null) {
                 client.sendEvent(GameServer.EVENT_ERROR, "Team " + teamName + " already has character " + player.getCharacter().name());
             } else {
                 client.sendEvent(EVENT_PLAYER_ADDED, addedPlayer);
