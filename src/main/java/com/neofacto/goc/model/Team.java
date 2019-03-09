@@ -6,7 +6,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Set;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 @Builder
 @NoArgsConstructor
@@ -16,6 +18,18 @@ import java.util.Set;
 public class Team {
 
     private String name;
-    private Set<Player> members;
+
+    @Builder.Default
+    private Map<UUID, Player> members = new HashMap<>();
+
+    public boolean addPlayer(Player player, UUID uuid) {
+        for (Player member : members.values()) {
+            if (member.getCharacter().equals(player.getCharacter())) {
+                return false;
+            }
+        }
+        members.put(uuid, player);
+        return true;
+    }
 
 }

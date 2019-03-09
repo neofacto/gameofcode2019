@@ -4,6 +4,7 @@ import com.corundumstudio.socketio.AckRequest;
 import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.SocketIOServer;
 import com.neofacto.goc.model.Attack;
+import com.neofacto.goc.model.Game;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j(topic = "goc")
@@ -11,8 +12,8 @@ public class AttackListener extends BaseEventListener<Attack> {
 
     public static final String EVENT_ATTACK = "attackEvent";
 
-    public AttackListener(SocketIOServer server) {
-        super(server);
+    public AttackListener(SocketIOServer server, Game game) {
+        super(server, game);
     }
 
     @Override

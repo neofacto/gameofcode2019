@@ -4,17 +4,20 @@ import com.corundumstudio.socketio.AckRequest;
 import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.SocketIOServer;
 import com.corundumstudio.socketio.listener.DataListener;
+import com.neofacto.goc.model.Game;
 import lombok.Getter;
 import lombok.Setter;
 
+@Getter
+@Setter
 public abstract class BaseEventListener<T> implements DataListener<T> {
 
-    @Getter
-    @Setter
+    private Game game;
     private SocketIOServer server;
 
-    public BaseEventListener(SocketIOServer server) {
+    public BaseEventListener(SocketIOServer server, Game game) {
         this.server = server;
+        this.game = game;
     }
 
     @Override
