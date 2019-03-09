@@ -5,11 +5,13 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+@Slf4j
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -33,6 +35,7 @@ public class Team {
             }
         }
         player.setUuid(uuid.toString());
+        log.debug("Add player {}({}) to {} (uuid: {})", player.getName(), player.getCharacter().name(), name, uuid);
         members.put(uuid, player);
         return true;
     }
