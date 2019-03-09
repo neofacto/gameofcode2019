@@ -14,7 +14,7 @@ public class GameServer {
         Configuration config = new Configuration();
 
         config.setPort(9092);
-        config.setOrigin("http://127.0.0.1:8887");
+        config.setOrigin("http://127.0.0.1:8887,http://192.168.201.14:8887");
 
         final SocketIOServer server = new SocketIOServer(config);
 
