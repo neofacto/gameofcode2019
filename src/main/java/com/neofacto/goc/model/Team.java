@@ -28,6 +28,7 @@ public class Team {
                 return false;
             }
         }
+        player.setUuid(uuid.toString());
         members.put(uuid, player);
         return true;
     }

@@ -4,8 +4,10 @@ import com.corundumstudio.socketio.Configuration;
 import com.corundumstudio.socketio.SocketIOServer;
 import com.neofacto.goc.listeners.AttackListener;
 import com.neofacto.goc.listeners.JoinGameListener;
+import com.neofacto.goc.listeners.PlayerDamagedListener;
 import com.neofacto.goc.listeners.PositionListener;
 import com.neofacto.goc.model.Attack;
+import com.neofacto.goc.model.Damage;
 import com.neofacto.goc.model.Game;
 import com.neofacto.goc.model.Position;
 import com.neofacto.goc.model.TeamSubscription;
@@ -16,7 +18,7 @@ public class GameServer {
 
     public final static String EVENT_ERROR = "error";
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) {
         Configuration config = new Configuration();
         config.setOrigin(args[0]);  // set origin as 1st app argument
         if (args[1] != null && !args[1].isEmpty()) {
@@ -33,6 +35,7 @@ public class GameServer {
         server.addEventListener(JoinGameListener.EVENT_JOIN_GAME, TeamSubscription.class, new JoinGameListener(server, game));
         server.addEventListener(PositionListener.EVENT_POSITION, Position.class, new PositionListener(server, game));
         server.addEventListener(AttackListener.EVENT_ATTACK, Attack.class, new AttackListener(server, game));
+        server.addEventListener(PlayerDamagedListener.EVENT_DAMAGED, Damage.class, new PlayerDamagedListener(server, game));
 
         // Server start.
         server.start();

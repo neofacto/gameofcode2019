@@ -55,4 +55,15 @@ public class Game {
         return null;
     }
 
+    public Team getPlayerTeam(String playerName) {
+        for (Team team : teams.values()) {
+            for (Player player : team.getMembers().values()) {
+                if (player.getName().equals(playerName)) {
+                    return team;
+                }
+            }
+        }
+        return null;
+    }
+
 }
