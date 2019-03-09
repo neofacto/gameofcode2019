@@ -30,10 +30,8 @@ public class GameServer {
         server.addEventListener(PositionListener.EVENT_POSITION, Position.class, new PositionListener(server, game));
         server.addEventListener(AttackListener.EVENT_ATTACK, Attack.class, new AttackListener(server, game));
 
-        // Server lifecycle.
+        // Server start.
         server.start();
-        Thread.sleep(Integer.MAX_VALUE);
-        server.stop();
     }
 
 }
