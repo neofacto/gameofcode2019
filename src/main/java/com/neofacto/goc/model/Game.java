@@ -21,30 +21,29 @@ public class Game {
     @Builder.Default
     private Map<String, Team> teams = new HashMap<>();
 
+    public static Game instantiate() {
+        final Game game = Game.builder().build();
+        game.addTeam("team1");
+        game.addTeam("team2");
+        return game;
+    }
+
     public void addTeam(String teamName) {
         if (teams.size() < 2) {
-            teams.put(teamName, Team.builder().build());
+            teams.put(teamName, Team.builder().name(teamName).build());
         }
     }
 
     public void addPlayer(Player player, String teamName, SocketIOClient client) {
         if (teams.containsKey(teamName)) {
-            if (!teams.get(teamName).addPlayer(player, client.getSessionId())) {
-                client.sendEvent(GameServer.EVENT_ERROR, "Team " + teamName + " already has character "
-                        + player.getCharacter().name());
+            Team team = teams.get(teamName);
+            if (!team.addPlayer(player, client.getSessionId())) {
+                client.sendEvent(GameServer.EVENT_ERROR, "Team " + teamName + " already has character " + player.getCharacter().name());
             }
+            teams.put(teamName, team);
         } else {
             client.sendEvent(GameServer.EVENT_ERROR, "Unknown team: " + teamName);
         }
-    }
-
-    public Team getPlayerTeam(SocketIOClient client) {
-        for (Team team : teams.values()) {
-            if (team.getMembers().get(client.getSessionId()) != null) {
-                return team;
-            }
-        }
-        return null;
     }
 
 }

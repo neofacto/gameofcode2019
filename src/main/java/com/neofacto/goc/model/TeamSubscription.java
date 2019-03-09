@@ -15,4 +15,5 @@ public class TeamSubscription {
 
     private Player player;
     private String teamName;
+
 }

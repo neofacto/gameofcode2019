@@ -12,15 +12,13 @@ public class JoinGameListener extends BaseEventListener<TeamSubscription> {
 
     public static final String EVENT_JOIN_GAME = "joinGameEvent";
 
-    private Game game;
-
     public JoinGameListener(SocketIOServer server, Game game) {
-        super(server);
+        super(server, game);
     }
 
     @Override
     public void onReceivedData(SocketIOClient client, TeamSubscription data, AckRequest ackRequest) {
-        game.addPlayer(data.getPlayer(), data.getTeamName(), client);
+        getGame().addPlayer(data.getPlayer(), data.getTeamName(), client);
         log.debug("{} joined {}", data.getPlayer().getCharacter().name(), data.getTeamName());
     }
 }
