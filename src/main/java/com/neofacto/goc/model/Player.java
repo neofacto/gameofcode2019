@@ -37,4 +37,10 @@ public class Player {
         }
         return this;
     }
+
+    public Player updateForDeath() {
+        setScore(0);
+        setDamages(100);
+        return this;
+    }
 }
