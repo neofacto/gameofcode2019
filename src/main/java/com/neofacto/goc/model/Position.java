@@ -14,8 +14,8 @@ import lombok.Setter;
 public class Position {
 
     private Player player;
-    private int x;
-    private int y;
+    private double x;
+    private double y;
     private boolean flippedX;
 
 }

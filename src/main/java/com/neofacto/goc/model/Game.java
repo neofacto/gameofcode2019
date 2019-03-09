@@ -1,6 +1,7 @@
 package com.neofacto.goc.model;
 
 import com.corundumstudio.socketio.SocketIOClient;
+import com.corundumstudio.socketio.SocketIOServer;
 import com.neofacto.goc.GameServer;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,6 +11,8 @@ import lombok.Setter;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 @Builder
 @NoArgsConstructor
@@ -17,6 +20,15 @@ import java.util.Map;
 @Getter
 @Setter
 public class Game {
+
+    public static final String EVENT_READY = "ready";
+    public static final String EVENT_TIME = "time";
+    public static final String EVENT_END = "end";
+
+    private Timer timer = new Timer();
+
+    @Builder.Default
+    private int remainingTime = 150;  // in ms.
 
     @Builder.Default
     private Map<String, Team> teams = new HashMap<>();
@@ -26,6 +38,39 @@ public class Game {
         game.addTeam("team1");
         game.addTeam("team2");
         return game;
+    }
+
+    public boolean isReady() {
+        if (remainingTime == 0) {
+            return false;
+        }
+        if (teams.size() < 2) {
+            return false;
+        }
+        for (Team team : teams.values()) {
+            if (team.getMembers().size() < Character.values().length) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public void start(SocketIOServer server) {
+        if (isReady()) {
+            timer = new Timer();
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    remainingTime--;
+                    if (remainingTime == 0) {
+                        timer.cancel();
+                        timer.purge();
+                        server.getBroadcastOperations().sendEvent(EVENT_END, true);
+                    }
+                    server.getBroadcastOperations().sendEvent(EVENT_TIME, remainingTime);
+                }
+            }, 0, 1000);
+        }
     }
 
     public void addTeam(String teamName) {
